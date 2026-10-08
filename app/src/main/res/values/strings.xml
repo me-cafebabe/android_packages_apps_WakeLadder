@@ -91,6 +91,11 @@
     <string name="nudge_time">Reminder time</string>
     <string name="power_off">Ring even when the phone is off</string>
     <string name="power_off_hint">Powers the phone on for the next alarm. Needs the device\'s power-off alarm service.</string>
+    <string name="fallback_set_title">Alarms set for %1$s</string>
+    <string name="fallback_set_text">You hadn\'t set one, so your weekday default was used. Tap to change.</string>
+    <string name="fallback_setting">Set alarms automatically</string>
+    <string name="fallback_hint">If you haven\'t set a wake time by the reminder time, use that weekday\'s default. Days without a default get no alarm. Cancelling tomorrow\'s alarms yourself is respected.</string>
+    <string name="auto_set_note">Set automatically from your weekday default.</string>
     <plurals name="task_math_left">
         <item quantity="one">%1$d problem left</item>
         <item quantity="other">%1$d problems left</item>

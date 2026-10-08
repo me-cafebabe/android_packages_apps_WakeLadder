@@ -91,6 +91,11 @@
     <string name="nudge_time">提醒时间</string>
     <string name="power_off">关机时也响铃</string>
     <string name="power_off_hint">为下一个闹钟自动开机，需要设备自带关机闹钟服务。</string>
+    <string name="fallback_set_title">已设定 %1$s 的闹钟</string>
+    <string name="fallback_set_text">你还没有设置，已使用该星期的默认时间。点按可修改。</string>
+    <string name="fallback_setting">自动设置闹钟</string>
+    <string name="fallback_hint">如果到提醒时间你还没设置起床时间，就使用该星期的默认时间。没有默认时间的日子不会响铃。你主动取消明天的闹钟会被尊重。</string>
+    <string name="auto_set_note">已根据该星期的默认时间自动设置。</string>
     <plurals name="task_math_left">
         <item quantity="other">还剩 %1$d 道题</item>
     </plurals>

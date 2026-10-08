@@ -91,6 +91,11 @@
     <string name="nudge_time">提醒時間</string>
     <string name="power_off">關機時也響鈴</string>
     <string name="power_off_hint">為下一個鬧鐘自動開機，需要裝置內建關機鬧鐘服務。</string>
+    <string name="fallback_set_title">已設定 %1$s 的鬧鐘</string>
+    <string name="fallback_set_text">你還沒有設定，已使用該星期的預設時間。點按可修改。</string>
+    <string name="fallback_setting">自動設定鬧鐘</string>
+    <string name="fallback_hint">如果到提醒時間你還沒設定起床時間，就使用該星期的預設時間。沒有預設時間的日子不會響鈴。你主動取消明天的鬧鐘會被尊重。</string>
+    <string name="auto_set_note">已根據該星期的預設時間自動設定。</string>
     <plurals name="task_math_left">
         <item quantity="other">還剩 %1$d 道題</item>
     </plurals>

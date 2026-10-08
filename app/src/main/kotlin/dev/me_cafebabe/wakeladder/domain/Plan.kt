@@ -30,6 +30,8 @@ data class LadderPlan(
     val followUp: FollowUpState = FollowUpState.NONE,
     val followUpAtMs: Long = 0,
     val followUpCount: Int = 0,
+    /** Created by the fallback rather than by the user. */
+    val auto: Boolean = false,
 ) {
     val lastRung: Rung get() = rungs.last()
 

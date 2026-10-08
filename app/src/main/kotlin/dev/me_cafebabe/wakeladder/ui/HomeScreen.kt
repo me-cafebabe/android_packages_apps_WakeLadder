@@ -145,6 +145,7 @@ fun HomeScreen(onOpenSettings: () -> Unit) {
                 Text(stringResource(if (active == null) R.string.set_ladder else R.string.update_ladder))
             }
             if (active != null) {
+                if (active.auto) Text(stringResource(R.string.auto_set_note), style = MaterialTheme.typography.bodySmall)
                 NextRing(active, now)
                 OutlinedButton(
                     onClick = { scope.launch { context.app.scheduler.cancelLadder() } },

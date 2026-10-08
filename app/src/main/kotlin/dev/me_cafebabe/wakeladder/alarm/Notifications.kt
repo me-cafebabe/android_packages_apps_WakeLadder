@@ -94,8 +94,6 @@ object Notifications {
         val app = context.app
         val settings = app.store.settingsNow()
         val now = LocalDateTime.now()
-        val plan = app.store.planNow()
-        if (plan != null && !plan.isFinished && plan.target.isAfter(now)) return
 
         val tomorrow = now.toLocalDate().plusDays(1).dayOfWeek
         val suggestion = settings.weekdayDefaults[tomorrow] ?: settings.lastUsedTime
@@ -126,6 +124,22 @@ object Notifications {
             .setAutoCancel(true)
             .addAction(0, context.getString(R.string.nudge_action_use, timeText(context, suggestion)), accept)
             .addAction(0, context.getString(R.string.nudge_action_pick), open)
+            .build()
+        context.getSystemService(NotificationManager::class.java).notify(ID_NUDGE, n)
+    }
+
+    /** Tells the user the fallback set their alarms, so an automatic alarm is never a surprise. */
+    fun showFallbackSet(context: Context, time: LocalTime) {
+        val open = PendingIntent.getActivity(
+            context, 13, Intent(context, MainActivity::class.java),
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
+        )
+        val n = NotificationCompat.Builder(context, CHANNEL_NUDGE)
+            .setSmallIcon(R.drawable.ic_notification)
+            .setContentTitle(context.getString(R.string.fallback_set_title, timeText(context, time)))
+            .setContentText(context.getString(R.string.fallback_set_text))
+            .setContentIntent(open)
+            .setAutoCancel(true)
             .build()
         context.getSystemService(NotificationManager::class.java).notify(ID_NUDGE, n)
     }

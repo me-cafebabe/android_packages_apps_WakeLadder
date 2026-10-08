@@ -41,6 +41,8 @@ data class LadderSettings(
     val followUpEnabled: Boolean = true,
     val followUpMinutes: Int = 7,
     val powerOffAlarm: Boolean = true,
+    /** If no wake time was set by the bedtime time, set one from the weekday default. */
+    val fallbackEnabled: Boolean = true,
     val bedtimeNudgeEnabled: Boolean = true,
     val bedtimeNudgeTime: LocalTime = LocalTime.of(22, 30),
     /** Default wake time per weekday; absent = no default. */

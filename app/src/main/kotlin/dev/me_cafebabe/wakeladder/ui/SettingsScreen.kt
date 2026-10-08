@@ -182,8 +182,9 @@ fun SettingsScreen(onBack: () -> Unit) {
                 }
             }
             Text(stringResource(R.string.weekday_hint), style = MaterialTheme.typography.bodySmall)
+            SwitchRow(stringResource(R.string.fallback_setting), s.fallbackEnabled, stringResource(R.string.fallback_hint)) { v -> update { it.copy(fallbackEnabled = v) } }
             SwitchRow(stringResource(R.string.nudge), s.bedtimeNudgeEnabled, stringResource(R.string.nudge_hint)) { v -> update { it.copy(bedtimeNudgeEnabled = v) } }
-            if (s.bedtimeNudgeEnabled) {
+            if (s.bedtimeNudgeEnabled || s.fallbackEnabled) {
                 Row(
                     Modifier.fillMaxWidth().clickable { editNudge = true }.padding(vertical = 10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,

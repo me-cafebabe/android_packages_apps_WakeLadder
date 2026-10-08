@@ -26,7 +26,7 @@ class CodecTest {
             ),
             minStreamPercent = 60, dismissTask = DismissTask.SHAKE,
             weekdayDefaults = mapOf(DayOfWeek.MONDAY to LocalTime.of(6, 30)),
-            bedtimeNudgeTime = LocalTime.of(23, 0),
+            bedtimeNudgeTime = LocalTime.of(23, 0), fallbackEnabled = false,
         )
         assertEquals(s, Codec.decodeSettings(Codec.encode(s)))
     }
@@ -49,7 +49,7 @@ class CodecTest {
     fun planRoundTrip() {
         val z = ZoneId.of("UTC")
         var p = LadderPlanner.plan(LocalDateTime.of(2026, 10, 10, 6, 40), LadderSettings(), z, 0)
-        p = PlanReducer.confirmUp(PlanReducer.onRungFired(p, 1), LadderSettings(), 12345)
+        p = PlanReducer.confirmUp(PlanReducer.onRungFired(p, 1), LadderSettings(), 12345).copy(auto = true)
         assertEquals(p, Codec.decodePlan(Codec.encode(p)))
     }
 }

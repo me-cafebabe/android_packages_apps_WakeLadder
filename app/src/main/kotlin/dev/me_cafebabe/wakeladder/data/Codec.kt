@@ -32,6 +32,7 @@ object Codec {
         put("followUp", s.followUpEnabled)
         put("followUpMinutes", s.followUpMinutes)
         put("powerOff", s.powerOffAlarm)
+        put("fallback", s.fallbackEnabled)
         put("nudge", s.bedtimeNudgeEnabled)
         put("nudgeTime", s.bedtimeNudgeTime.toString())
         put("lastUsed", s.lastUsedTime.toString())
@@ -81,6 +82,7 @@ object Codec {
                 followUpEnabled = o.optBoolean("followUp", d.followUpEnabled),
                 followUpMinutes = o.optInt("followUpMinutes", d.followUpMinutes),
                 powerOffAlarm = o.optBoolean("powerOff", d.powerOffAlarm),
+                fallbackEnabled = o.optBoolean("fallback", d.fallbackEnabled),
                 bedtimeNudgeEnabled = o.optBoolean("nudge", d.bedtimeNudgeEnabled),
                 bedtimeNudgeTime = o.optTime("nudgeTime", d.bedtimeNudgeTime),
                 weekdayDefaults = o.optJSONObject("weekdays")?.let { w ->
@@ -108,6 +110,7 @@ object Codec {
         put("fu", p.followUp.name)
         put("fuAt", p.followUpAtMs)
         put("fuCount", p.followUpCount)
+        put("auto", p.auto)
     }.toString()
 
     fun decodePlan(json: String?): LadderPlan? {
@@ -125,6 +128,7 @@ object Codec {
                 followUp = enumOr(o.optString("fu"), FollowUpState.NONE),
                 followUpAtMs = o.optLong("fuAt"),
                 followUpCount = o.optInt("fuCount"),
+                auto = o.optBoolean("auto"),
             )
         } catch (_: Exception) {
             null

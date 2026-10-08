@@ -30,12 +30,15 @@ class AlarmScheduler(
     private val alarmManager = context.getSystemService(AlarmManager::class.java)
     private val mutex = Mutex()
 
-    /** Creates the ladder ending at [target] (wall clock, current zone) and arms it. */
-    suspend fun setWakeTime(target: LocalDateTime) {
+    /**
+     * Creates the ladder ending at [target] (wall clock, current zone) and arms it.
+     * [auto] marks plans made by the fallback; those do not become the remembered "last used" time.
+     */
+    suspend fun setWakeTime(target: LocalDateTime, auto: Boolean = false) {
         val settings = store.settingsNow()
         val now = nowMs()
-        store.updatePlan { LadderPlanner.plan(target, settings, ZoneId.systemDefault(), now) }
-        store.updateSettings { it.copy(lastUsedTime = target.toLocalTime()) }
+        store.updatePlan { LadderPlanner.plan(target, settings, ZoneId.systemDefault(), now).copy(auto = auto) }
+        if (!auto) store.updateSettings { it.copy(lastUsedTime = target.toLocalTime()) }
         reschedule()
     }
 
@@ -92,7 +95,7 @@ class AlarmScheduler(
 
     private fun scheduleNudge(settings: LadderSettings, now: Long) {
         alarmManager.cancel(nudgeIntent())
-        if (!settings.bedtimeNudgeEnabled) return
+        if (!settings.bedtimeNudgeEnabled && !settings.fallbackEnabled) return
         val next = LadderPlanner.nextOccurrence(
             settings.bedtimeNudgeTime,
             java.time.LocalDateTime.ofInstant(java.time.Instant.ofEpochMilli(now), ZoneId.systemDefault()),

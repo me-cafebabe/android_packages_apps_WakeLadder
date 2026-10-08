@@ -28,7 +28,7 @@ class AlarmReceiver : BroadcastReceiver() {
                             RingService.ring(context, Actions.MODE_FOLLOW_UP, -1)
                         }
                     }
-                    Actions.NUDGE -> Notifications.showBedtimeNudge(context)
+                    Actions.NUDGE -> BedtimeRoutine.run(context)
                     Actions.NUDGE_ACCEPT -> {
                         val sod = intent.getIntExtra(Actions.EXTRA_TIME_MS, -1)
                         if (sod >= 0) app.scheduler.setWakeTime(Notifications.targetFor(sod))

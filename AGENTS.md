@@ -9,6 +9,7 @@ up on days with too little sleep. Package: `dev.me_cafebabe.wakeladder`.
 - Dev build (Gradle): `./gradlew assembleDebug`, unit tests: `./gradlew testDebugUnitTest`,
   lint: `./gradlew lintDebug` (warnings are errors).
 - Platform build: `Android.bp` (`android_app` module `WakeLadder`) — uses prebuilt AndroidX
+  The manifest keeps `package=` (required by Soong) in addition to Gradle's `namespace`, like the sibling apps.
   from `prebuilts/sdk/current/androidx`; keep dependencies to what is available there.
 - Gradle needs the Android SDK (`local.properties` -> `sdk.dir`, gitignored) and
   `compileSdk` 37 platform. Behind a proxy set `systemProp.https.proxyHost` in `~/.gradle/gradle.properties`.

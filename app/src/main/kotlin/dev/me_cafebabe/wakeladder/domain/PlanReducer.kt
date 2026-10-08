@@ -37,6 +37,20 @@ object PlanReducer {
         )
     }
 
+    /**
+     * Nobody touched the last rung before it timed out: the user is probably still asleep, so
+     * instead of going quiet, nag again soon via the follow-up mechanism (if enabled).
+     */
+    fun lastRungTimedOut(plan: LadderPlan, settings: LadderSettings, nowMs: Long): LadderPlan {
+        val silenced = silence(plan, plan.lastRung.index)
+        if (!settings.followUpEnabled) return silenced
+        return silenced.copy(
+            followUp = FollowUpState.SCHEDULED,
+            followUpAtMs = nowMs + NAG_DELAY_MS,
+            followUpCount = 0,
+        )
+    }
+
     fun cancelAll(plan: LadderPlan): LadderPlan = plan.copy(
         rungs = plan.rungs.map {
             if (it.state == RungState.SCHEDULED || it.state == RungState.RINGING)
@@ -80,6 +94,7 @@ object PlanReducer {
     )
 
     const val MAX_FOLLOW_UPS = 3
+    const val NAG_DELAY_MS = 2 * 60_000L
 
     private fun LadderPlan.mapRung(index: Int, f: (Rung) -> Rung): LadderPlan =
         copy(rungs = rungs.map { if (it.index == index) f(it) else it })

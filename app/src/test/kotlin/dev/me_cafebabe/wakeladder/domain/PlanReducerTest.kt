@@ -83,4 +83,15 @@ class PlanReducerTest {
         val p = PlanReducer.cancelAll(PlanReducer.onRungFired(fresh, 0))
         assertEquals(true, p.isFinished)
     }
+
+    @Test
+    fun ignoredLastRungNagsInsteadOfGoingQuiet() {
+        val last = fresh.lastRung.index
+        val p = PlanReducer.lastRungTimedOut(PlanReducer.onRungFired(fresh, last), settings, 1000)
+        assertEquals(RungState.SILENCED, p.rungs.last().state)
+        assertEquals(FollowUpState.SCHEDULED, p.followUp)
+        assertEquals(1000 + PlanReducer.NAG_DELAY_MS, p.nextDueMs())
+        val off = PlanReducer.lastRungTimedOut(PlanReducer.onRungFired(fresh, last), settings.copy(followUpEnabled = false), 1000)
+        assertEquals(FollowUpState.NONE, off.followUp)
+    }
 }

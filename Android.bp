@@ -1,0 +1,48 @@
+// Platform build of Wake Ladder. The Gradle build (see AGENTS.md) is the development build;
+// keep dependencies here limited to what prebuilts/sdk/current/androidx provides.
+
+package {
+    default_applicable_licenses: ["Android-Apache-2.0"],
+}
+
+android_app {
+    name: "WakeLadder",
+
+    srcs: ["app/src/main/kotlin/**/*.kt"],
+    resource_dirs: ["app/src/main/res"],
+    manifest: "app/src/main/AndroidManifest.xml",
+
+    sdk_version: "current",
+    min_sdk_version: "34",
+    target_sdk_version: "36",
+
+    static_libs: [
+        "androidx.core_core-ktx",
+        "androidx.activity_activity-compose",
+        "androidx.lifecycle_lifecycle-runtime-compose",
+        "androidx.lifecycle_lifecycle-viewmodel-compose",
+        "androidx.datastore_datastore-preferences",
+        "androidx.compose.runtime_runtime",
+        "androidx.compose.ui_ui",
+        "androidx.compose.ui_ui-graphics",
+        "androidx.compose.ui_ui-unit",
+        "androidx.compose.foundation_foundation",
+        "androidx.compose.foundation_foundation-layout",
+        "androidx.compose.material3_material3",
+        "androidx.compose.material_material-icons-core",
+        "androidx.compose.material_material-icons-extended",
+        "kotlin-stdlib",
+        "kotlinx_coroutines",
+        "kotlinx_coroutines_android",
+    ],
+
+    optimize: {
+        enabled: true,
+        shrink_resources: true,
+        proguard_flags_files: ["app/proguard.flags"],
+    },
+
+    // Compose compiler wiring is handled by the platform build, as for EyeDropper/PrivateSpace.
+    // Not privileged: nothing here needs platform signature permissions.
+    // The power-off alarm permission is requested at runtime, like DeskClock does.
+}

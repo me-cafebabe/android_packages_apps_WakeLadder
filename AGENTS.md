@@ -35,3 +35,13 @@ up on days with too little sleep. Package: `dev.me_cafebabe.wakeladder`.
   `com.qualcomm.qti.poweroffalarm`); hide the feature when that package is absent.
 - No license headers yet (undecided). Do not add `lineage`/`LineageOS` to identifiers.
 - Commit every change (small, conventional-commit messages).
+
+## Status (update when it changes)
+
+- Verified: `domain/` compiles and its unit tests pass (run with a plain kotlinc + JUnit shim).
+- **Not yet compiled or run**: `data/`, `alarm/`, `ui/`, manifest, resources, `Android.bp`. The first
+  `./gradlew assembleDebug` needs the Android 37 platform and Maven downloads; expect to fix compile
+  errors, lint warnings (warnings are errors) and unknown-permission lint for the power-off permission.
+- Not implemented: automatic fallback alarm when no wake time was set (only the bedtime nudge exists).
+- Power-off alarm cannot be tested on an emulator; verify on a device with `com.qualcomm.qti.poweroffalarm`.
+- Rescue behaviour: if the alarm stream volume is 0 the ring service raises it to 40% and restores it after.

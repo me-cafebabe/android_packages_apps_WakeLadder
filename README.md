@@ -13,4 +13,4 @@ Key behaviours:
   (none by default; math / shake / steps).
 - Power-off alarm on devices with the Qualcomm power-off alarm service (as in DeskClock).
 
-See [AGENTS.md](AGENTS.md) for build instructions and architecture. License: not yet decided.
+See [AGENTS.md](AGENTS.md) for build instructions, architecture and current status. License: not yet decided.

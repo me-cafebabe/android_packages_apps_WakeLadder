@@ -22,6 +22,10 @@ class SystemEventReceiver : BroadcastReceiver() {
                     Intent.ACTION_TIME_CHANGED, Intent.ACTION_TIMEZONE_CHANGED ->
                         app.scheduler.replanForClockChange()
                     QcomPowerOffAlarmGateway.ACTION_UPDATE -> onPowerOffStatus(context, intent)
+                    Intent.ACTION_BOOT_COMPLETED, Intent.ACTION_LOCKED_BOOT_COMPLETED -> {
+                        app.scheduler.reschedule()
+                        BedtimeRoutine.catchUp(context)
+                    }
                     else -> app.scheduler.reschedule()
                 }
             } finally {

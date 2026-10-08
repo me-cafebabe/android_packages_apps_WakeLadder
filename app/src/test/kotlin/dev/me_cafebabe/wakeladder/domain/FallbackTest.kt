@@ -49,3 +49,35 @@ class FallbackTest {
         assertEquals(false, Fallback.hasPlanForComingMorning(plan, LocalDateTime.of(2026, 10, 10, 7, 0)))
     }
 }
+
+class FallbackMissedTest {
+    private val bedtime = LocalTime.of(22, 30)
+
+    @Test
+    fun mostRecentOccurrenceLooksBackAcrossMidnight() {
+        assertEquals(LocalDateTime.of(2026, 10, 9, 22, 30), Fallback.mostRecentOccurrence(bedtime, LocalDateTime.of(2026, 10, 10, 1, 0)))
+        assertEquals(LocalDateTime.of(2026, 10, 9, 22, 30), Fallback.mostRecentOccurrence(bedtime, LocalDateTime.of(2026, 10, 9, 23, 0)))
+    }
+
+    @Test
+    fun missedWhenPhoneWasOffAtBedtime() {
+        val last = LocalDateTime.of(2026, 10, 8, 22, 30) // ran last night, not tonight
+        assertEquals(true, Fallback.isMissed(LocalDateTime.of(2026, 10, 9, 23, 15), bedtime, last))
+        assertEquals(true, Fallback.isMissed(LocalDateTime.of(2026, 10, 10, 2, 0), bedtime, last))
+    }
+
+    @Test
+    fun notMissedWhenAlreadyRunOrNotYetDue() {
+        val ranTonight = LocalDateTime.of(2026, 10, 9, 22, 30, 1)
+        assertEquals(false, Fallback.isMissed(LocalDateTime.of(2026, 10, 9, 23, 15), bedtime, ranTonight))
+        // Daytime reboot: last occurrence was last night and it ran, so nothing to catch up.
+        assertEquals(false, Fallback.isMissed(LocalDateTime.of(2026, 10, 9, 14, 0), bedtime, LocalDateTime.of(2026, 10, 8, 22, 30)))
+    }
+
+    @Test
+    fun oldGapsAreIgnored() {
+        // Booted at 14:00; the missed 22:30 was 15.5 h ago, too late to be useful.
+        assertEquals(false, Fallback.isMissed(LocalDateTime.of(2026, 10, 9, 14, 0), bedtime, null))
+        assertEquals(true, Fallback.isMissed(LocalDateTime.of(2026, 10, 9, 23, 0), bedtime, null))
+    }
+}

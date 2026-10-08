@@ -59,7 +59,15 @@ class AppStore(context: Context) {
         store.edit { if (ms == null) it.remove(POWEROFF) else it[POWEROFF] = ms.toString() }
     }
 
+    /** When the bedtime routine last ran (epoch ms), to detect a missed run after boot. */
+    suspend fun lastRoutineMs(): Long? = store.data.first()[LAST_ROUTINE]?.toLongOrNull()
+
+    suspend fun setLastRoutineMs(ms: Long) {
+        store.edit { it[LAST_ROUTINE] = ms.toString() }
+    }
+
     private companion object {
+        val LAST_ROUTINE = stringPreferencesKey("last_routine_ms")
         val SETTINGS = stringPreferencesKey("settings")
         val PLAN = stringPreferencesKey("plan")
         val POWEROFF = stringPreferencesKey("poweroff_ms")

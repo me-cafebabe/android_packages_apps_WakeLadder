@@ -38,12 +38,13 @@ up on days with too little sleep. Package: `dev.me_cafebabe.wakeladder`.
 
 ## Status (update when it changes)
 
-- Verified: `domain/` (incl. `Fallback`) compiles and its 22 unit tests pass (plain kotlinc + JUnit shim).
+- Verified: `domain/` (incl. `Fallback`) compiles and its 26 unit tests pass (plain kotlinc + JUnit shim).
 - **Not yet compiled or run**: `data/`, `alarm/`, `ui/`, manifest, resources, `Android.bp`. The first
   `./gradlew assembleDebug` needs the Android 37 platform and Maven downloads; expect to fix compile
   errors, lint warnings (warnings are errors) and unknown-permission lint for the power-off permission.
 - Fallback alarm: `BedtimeRoutine` runs at the bedtime time; if no plan exists for the coming morning
   (a cancelled plan counts as a deliberate skip) and a weekday default applies, it sets an `auto` plan and
-  posts a notification, otherwise it shows the nudge. Not covered: the phone being off at that time.
+  posts a notification, otherwise it shows the nudge. After boot (`BOOT_COMPLETED` and
+  `LOCKED_BOOT_COMPLETED`) `BedtimeRoutine.catchUp` runs it if the last bedtime time passed unrun (within 12 h).
 - Power-off alarm cannot be tested on an emulator; verify on a device with `com.qualcomm.qti.poweroffalarm`.
 - Rescue behaviour: if the alarm stream volume is 0 the ring service raises it to 40% and restores it after.

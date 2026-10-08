@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Switch
@@ -59,7 +60,7 @@ fun SliderRow(
     title: String,
     value: Int,
     range: IntRange,
-    label: (Int) -> String,
+    label: @Composable (Int) -> String,
     step: Int = 1,
     onCommit: (Int) -> Unit,
 ) {
@@ -79,6 +80,7 @@ fun SliderRow(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimePickerDialog(
     initial: LocalTime,

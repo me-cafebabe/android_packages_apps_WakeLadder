@@ -191,7 +191,7 @@ private fun SleepEstimate(now: LocalDateTime, target: LocalDateTime, preview: La
         ?.let { java.time.Instant.ofEpochMilli(it.timeMs).atZone(ZoneId.systemDefault()).toLocalDateTime() }
     val toFirst = first?.let { Duration.between(now, it) }
     Text(
-        stringResource(R.string.sleep_estimate, duration(toTarget), toFirst?.let(::duration) ?: "—"),
+        stringResource(R.string.sleep_estimate, duration(toTarget), toFirst?.let { duration(it) } ?: "—"),
         style = MaterialTheme.typography.bodyMedium,
     )
 }

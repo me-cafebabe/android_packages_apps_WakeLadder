@@ -45,4 +45,6 @@ android_app {
     // Compose compiler wiring is handled by the platform build, as for EyeDropper/PrivateSpace.
     // Not privileged: nothing here needs platform signature permissions.
     // The power-off alarm permission is requested at runtime, like DeskClock does.
+
+    product_specific: true,
 }
